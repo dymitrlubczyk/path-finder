@@ -20,12 +20,11 @@ table{
   border-spacing:0 ;
 }
 
-#mode_button{
+.bottom_button{
   width: 150px;
   height: 30px;
   margin-top: 30px;
   background-color: #CFCCD6;
   color: #323232;
   border-radius: 10px;
-
 }
