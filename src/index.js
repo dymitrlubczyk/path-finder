@@ -9,16 +9,18 @@ window.addEventListener("resize", () => changeBoardSize())
 window.addEventListener("load", () => changeBoardSize())
 
 const changeBoardSize = () => {
-  size = Math.floor(document.body.clientWidth / cellSize) - 1
-  dijkstra.setSize(size)
+  width = Math.floor(document.body.clientWidth / cellSize) - 1
+  height = Math.floor(document.body.clientHeight / cellSize) - 1
+  dijkstra.setSize(height, width)
   buildGrid()
 }
 
-let size = 25;
-const cellSize = 14
+let height = 10;
+let width = 10;
+const cellSize = 14;
 
-const dijkstra = new Dijkstra(size);
-const animator = new Animator()
+const dijkstra = new Dijkstra(height, width);
+const animator = new Animator();
 
 const modeButton = document.getElementById("mode_button");
 const cleanUpButton = document.getElementById("cleanup_button");
@@ -40,16 +42,16 @@ cleanUpButton.addEventListener("click", () => {
 
 //build grid
 function buildGrid() {
-  for (let j = 0; j < size; ++j) {
+  for (let j = 0; j < height; ++j) {
     const row = document.createElement("tr");
     table.appendChild(row);
 
-    for (let i = 0; i < size; ++i) {
+    for (let i = 0; i < width; ++i) {
 
       const td = document.createElement("td");
       const btn = document.createElement("button");
       btn.classList.add("boardButton", "default");
-      btn.id = i + j * size;
+      btn.id = i + j * width;
 
       td.addEventListener("mousedown", () => mouseDown = true);
 
@@ -87,14 +89,9 @@ function buildGrid() {
 
 function cleanUp() {
 
-  // for (let i = 0; i < size ** 2; ++i) {
-  //   // document.getElementById(i).textContent = '?';
-  //   // document.getElementById(i).style.background = '#0B3C49';
-
-  // }
-
-  document.getElementsByClassName("boardButton").forEach(btn => {
-    btn.classList = ["boardButton", "default"]
+  Array.from(document.getElementsByClassName("boardButton")).forEach(btn => {
+    btn.classList.remove("start", "target", "visited", "wall")
+    btn.classList.add("boardButton", "default")
   })
 
   dijkstra.cleanUp();

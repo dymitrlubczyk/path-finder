@@ -1,21 +1,22 @@
 import Animator from "../animator"
 
 export default class Dijkstra {
-    constructor(size) {
+    constructor(height, width) {
 
         this.animator = new Animator()
         this.wall = [];
         this.dist = [];
         this.visited = [];
-        this.setSize(size);
+        this.setSize(height, width);
     }
 
-    setSize(size) {
-        this.size = size;
-        for (let i = 0; i < this.size ** 2; ++i) {
+    setSize(height, width) {
+        this.height = height;
+        this.width = width;
+        for (let i = 0; i < height * width; ++i) {
             this.visited.push(false);
             this.wall.push(false);
-            this.dist.push(size * size);
+            this.dist.push(Number.POSITIVE_INFINITY)
         }
     }
 
@@ -27,7 +28,6 @@ export default class Dijkstra {
 
         let current = this.start;
         this.dist[current] = 0;
-        console.log(current)
 
         this.itervalId = setInterval(function () {
 
@@ -38,8 +38,8 @@ export default class Dijkstra {
                 return;
             }
 
-            let i = current % this.size;
-            let j = Math.floor(current / this.size);
+            let i = Math.floor(current / this.width);
+            let j = current % this.width;
 
             //update distances to unvisited neigh
             this.updateDist(i - 1, j, current);
@@ -48,9 +48,7 @@ export default class Dijkstra {
             this.updateDist(i, j + 1, current);
 
             this.visited[current] = true;
-            // console.log(document.getElementById(i + j * this.size))
-            this.animator.setVisited(document.getElementById(i + j * this.size))
-            // document.getElementById(i + j * this.size).classList.add("visited")
+            this.animator.setVisited(document.getElementById(i * this.width + j))
 
         }.bind(this)
             , 40);
@@ -59,21 +57,20 @@ export default class Dijkstra {
     }
 
     updateDist(i, j, current) {
-        if (i < 0 || j < 0 || j >= this.size || i >= this.size || this.visited[i + j * this.size] || this.wall[i + j * this.size])
+        if (i < 0 || j < 0 || j >= this.width || i >= this.height || this.visited[i * this.width + j] || this.wall[i * this.width + j])
             return;
 
-        if (this.dist[current] + 1 < this.dist[i + j * this.size]) {
-            this.dist[i + j * this.size] = this.dist[current] + 1;
-            // document.getElementById(i + j * this.size).textContent = this.dist[i + j * this.size];
+        if (this.dist[current] + 1 < this.dist[i * this.width + j]) {
+            this.dist[i * this.width + j] = this.dist[current] + 1;
         }
 
     }
 
     findNext() {
-        let minDist = this.size ** 2;
+        let minDist = Number.POSITIVE_INFINITY;
         let current = -1;
 
-        for (let v = 0; v < this.size ** 2; ++v) {
+        for (let v = 0; v < this.width * this.height; ++v) {
             if (this.visited[v] || this.wall[v])
                 continue;
 
@@ -88,14 +85,12 @@ export default class Dijkstra {
 
     cleanUp() {
 
-        for (let i = 0; i < this.size ** 2; ++i) {
+        for (let i = 0; i < this.height * this.width; ++i) {
             this.visited[i] = false;
             this.wall[i] = false;
-            this.dist[i] = this.size ** 2;
+            this.dist[i] = this.height * this.width;
         }
-
         this.start = null;
-
     }
 
 }
