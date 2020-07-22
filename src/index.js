@@ -1,46 +1,44 @@
-import Dijkstra from './dijkstra';
+import Dijkstra from './algorithms/dijkstra';
+import "./style.scss"
 
-const size=25;
+const size = 25;
 
-const dijkstra=new Dijkstra(size);
+const dijkstra = new Dijkstra(size);
 
-const modeButton=document.getElementById("mode_button");
-const cleanUpButton=document.getElementById("cleanup_button");
+const modeButton = document.getElementById("mode_button");
+const cleanUpButton = document.getElementById("cleanup_button");
 const table = document.getElementById("table");
 
-let mouseDown=false;
-let wallMode=true;
+let mouseDown = false;
+let wallMode = true;
 
-modeButton.addEventListener("click",()=>{
-  wallMode=!wallMode;
-  modeButton.innerHTML=wallMode?"Wall mode":"Select target";
+modeButton.addEventListener("click", () => {
+  wallMode = !wallMode;
+  modeButton.innerHTML = wallMode ? "Wall mode" : "Select target";
 })
 
-cleanUpButton.addEventListener("click",()=>{
+cleanUpButton.addEventListener("click", () => {
   cleanUp();
 })
 
 //build grid
-for(let j=0; j<size; ++j)
-{
+for (let j = 0; j < size; ++j) {
   const row = document.createElement("tr");
   table.appendChild(row);
 
-  for(let i=0; i<size; ++i)
-  {
-    let btn = document.createElement("button");
-    btn.id=i+j*size;
+  for (let i = 0; i < size; ++i) {
+    const btn = document.createElement("button");
+    btn.id = i + j * size;
     btn.innerHTML = `?`;
 
-    btn.addEventListener("mouseup",()=>mouseDown=false);
+    btn.addEventListener("mouseup", () => mouseDown = false);
 
-    btn.addEventListener("mousedown",()=>mouseDown=true);
+    btn.addEventListener("mousedown", () => mouseDown = true);
 
-    btn.addEventListener("click",()=>{
+    btn.addEventListener("click", () => {
 
-      if(!wallMode)
-      {
-        if(dijkstra.start)
+      if (!wallMode) {
+        if (dijkstra.start)
           dijkstra.run(parseInt(btn.id));
 
         else
@@ -49,13 +47,12 @@ for(let j=0; j<size; ++j)
 
     });
 
-    btn.addEventListener("mousemove",()=>{
+    btn.addEventListener("mousemove", () => {
 
-      if(mouseDown && wallMode)
-      {
-        document.getElementById(btn.id).style.background='#000000';
-        document.getElementById(btn.id).innerHTML='w';
-        dijkstra.wall[btn.id]=true;
+      if (mouseDown && wallMode) {
+        document.getElementById(btn.id).style.background = '#000000';
+        document.getElementById(btn.id).innerHTML = 'w';
+        dijkstra.wall[btn.id] = true;
 
       }
     })
@@ -66,13 +63,11 @@ for(let j=0; j<size; ++j)
 }
 
 
-function cleanUp()
-{
+function cleanUp() {
 
-  for(let i=0; i<size**2; ++i)
-  {
-    document.getElementById(i).innerHTML='?';
-    document.getElementById(i).style.background='#0B3C49';
+  for (let i = 0; i < size ** 2; ++i) {
+    document.getElementById(i).innerHTML = '?';
+    document.getElementById(i).style.background = '#0B3C49';
   }
 
   dijkstra.cleanUp();
