@@ -14,7 +14,7 @@ let wallMode = true;
 
 modeButton.addEventListener("click", () => {
   wallMode = !wallMode;
-  modeButton.innerHTML = wallMode ? "Wall mode" : "Select target";
+  modeButton.textContent = wallMode ? "Wall mode" : "Select target";
 })
 
 cleanUpButton.addEventListener("click", () => {
@@ -29,7 +29,7 @@ for (let j = 0; j < size; ++j) {
   for (let i = 0; i < size; ++i) {
     const btn = document.createElement("button");
     btn.id = i + j * size;
-    btn.innerHTML = `?`;
+    btn.textContent = `?`;
 
     btn.addEventListener("mouseup", () => mouseDown = false);
 
@@ -51,7 +51,7 @@ for (let j = 0; j < size; ++j) {
 
       if (mouseDown && wallMode) {
         document.getElementById(btn.id).style.background = '#000000';
-        document.getElementById(btn.id).innerHTML = 'w';
+        document.getElementById(btn.id).textContent = 'w';
         dijkstra.wall[btn.id] = true;
 
       }
@@ -66,7 +66,7 @@ for (let j = 0; j < size; ++j) {
 function cleanUp() {
 
   for (let i = 0; i < size ** 2; ++i) {
-    document.getElementById(i).innerHTML = '?';
+    document.getElementById(i).textContent = '?';
     document.getElementById(i).style.background = '#0B3C49';
   }
 
