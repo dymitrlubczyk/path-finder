@@ -5,6 +5,7 @@ $color-secondary: black;
 $color-disabled: #bbbbbb;
 $color-accent1: #ff004c;
 $color-accent2: #005eff;
+$color-background: #ededed;
 
 :root{
   --button-size: 14px;
@@ -19,7 +20,7 @@ $color-accent2: #005eff;
 }
 
 body{
-  background-color: #ededed;
+  background-color: $color-background;
 }
 
 tr{
@@ -49,12 +50,12 @@ td{
 }
 
 .start{
-  background-color: $color-accent1;
+  background-color: $color-accent1 !important;
   animation: setPoint 0.3s;
 }
 
 .target{
-  background-color: $color-accent2;
+  background-color: $color-accent2 !important;
   animation: setPoint 0.3s;
 }
 
@@ -103,6 +104,7 @@ td{
   border-radius: 10px;
   background-color: $color-primary;
   color: $color-secondary;
+
   & *{
     margin-bottom: 2rem;
     &:last-child{

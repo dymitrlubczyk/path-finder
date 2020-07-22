@@ -5,7 +5,17 @@ import "./style.scss"
 
 createInstruction()
 
-const size = 25;
+window.addEventListener("resize", () => changeBoardSize())
+window.addEventListener("load", () => changeBoardSize())
+
+const changeBoardSize = () => {
+  size = Math.floor(document.body.clientWidth / cellSize) - 1
+  dijkstra.setSize(size)
+  buildGrid()
+}
+
+let size = 25;
+const cellSize = 14
 
 const dijkstra = new Dijkstra(size);
 const animator = new Animator()
@@ -29,44 +39,50 @@ cleanUpButton.addEventListener("click", () => {
 })
 
 //build grid
-for (let j = 0; j < size; ++j) {
-  const row = document.createElement("tr");
-  table.appendChild(row);
+function buildGrid() {
+  for (let j = 0; j < size; ++j) {
+    const row = document.createElement("tr");
+    table.appendChild(row);
 
-  for (let i = 0; i < size; ++i) {
+    for (let i = 0; i < size; ++i) {
 
-    const td = document.createElement("td");
-    const btn = document.createElement("button");
-    btn.classList.add("boardButton", "default");
-    btn.id = i + j * size;
+      const td = document.createElement("td");
+      const btn = document.createElement("button");
+      btn.classList.add("boardButton", "default");
+      btn.id = i + j * size;
 
-    td.addEventListener("mousedown", () => mouseDown = true);
+      td.addEventListener("mousedown", () => mouseDown = true);
 
-    td.addEventListener("click", () => {
+      td.addEventListener("click", () => {
 
-      if (!wallMode) {
-        if (dijkstra.start)
-          dijkstra.run(parseInt(btn.id));
+        if (!wallMode) {
+          if (dijkstra.start) {
+            animator.setTarget(btn)
+            dijkstra.run(parseInt(btn.id));
+          }
+          else {
+            animator.setStart(btn)
+            dijkstra.setStart(parseInt(btn.id));
+          }
+        }
 
-        else
-          dijkstra.setStart(parseInt(btn.id));
-      }
+      });
 
-    });
+      td.addEventListener("mousemove", () => {
+        if (mouseDown && wallMode) {
+          animator.setWall(btn)
+          dijkstra.wall[btn.id] = true;
+        }
+      })
 
-    td.addEventListener("mousemove", () => {
-      if (mouseDown && wallMode) {
-        animator.setWall(btn)
-        // btn.classList.add("wall")
-        dijkstra.wall[btn.id] = true;
-      }
-    })
+      td.appendChild(btn)
+      row.appendChild(td);
+    }
 
-    td.appendChild(btn)
-    row.appendChild(td);
   }
-
 }
+
+
 
 
 function cleanUp() {

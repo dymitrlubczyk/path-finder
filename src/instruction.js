@@ -31,10 +31,7 @@ const step = (stepContent) => {
   const next = document.createElement("button");
   next.textContent = "Next";
 
-  next.addEventListener("click", () => {
-    console.log("Hide")
-    modal.classList.add("hide")
-  })
+  next.addEventListener("click", () => modal.classList.add("hide"))
 
   modal.appendChild(heading);
   modal.appendChild(image);

@@ -4,17 +4,19 @@ export default class Dijkstra {
     constructor(size) {
 
         this.animator = new Animator()
-        this.size = size;
         this.wall = [];
         this.dist = [];
         this.visited = [];
+        this.setSize(size);
+    }
 
+    setSize(size) {
+        this.size = size;
         for (let i = 0; i < this.size ** 2; ++i) {
             this.visited.push(false);
             this.wall.push(false);
             this.dist.push(size * size);
         }
-
     }
 
     setStart(start) {
@@ -25,7 +27,7 @@ export default class Dijkstra {
 
         let current = this.start;
         this.dist[current] = 0;
-
+        console.log(current)
 
         this.itervalId = setInterval(function () {
 
@@ -46,6 +48,7 @@ export default class Dijkstra {
             this.updateDist(i, j + 1, current);
 
             this.visited[current] = true;
+            // console.log(document.getElementById(i + j * this.size))
             this.animator.setVisited(document.getElementById(i + j * this.size))
             // document.getElementById(i + j * this.size).classList.add("visited")
 
