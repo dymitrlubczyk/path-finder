@@ -9,7 +9,7 @@ export default class Dijkstra {
         this.visited = [];
         this.prev = [];
         this.finished = false;
-        this.pathToShow = [];
+        this.start=-1;
         this.setSize(height, width);
     }
 
@@ -39,8 +39,8 @@ export default class Dijkstra {
 
             if (current === target || current === -1) {
                 clearInterval(this.itervalId);
-                this.finished = true;
-                this.showWay(current)
+                this.displayPath(target);
+                this.finished=true;
                 return;
             }
 
@@ -57,7 +57,7 @@ export default class Dijkstra {
             this.animator.setVisited(document.getElementById(current))
 
         }.bind(this)
-            , 5);
+            , 30);
 
     }
 
@@ -97,37 +97,19 @@ export default class Dijkstra {
             this.dist[i] = Number.POSITIVE_INFINITY;
             this.prev[i] = -1;
         }
-        this.pathToShow = []
-        this.start = null;
+        this.start = -1;
         this.finished = false;
     }
 
-    showWay(id) {
+    displayPath(target) {
 
-        if (!this.finished || !this.visited[id]) {
-            return;
-        }
-        this.pathToShow.forEach(id => {
-            this.animator.setVisited(document.getElementById(id));
-        })
-        this.pathToShow = [];
+        let current=target;
 
-        while (id > -1) {
-            this.pathToShow.push(id);
-            id = this.prev[id];
-        }
-        this.pathToShow.reverse();
+        do{
+            this.animator.setPath(document.getElementById(current));
+            current = this.prev[current];
+        }while(current!==this.start);
 
-        const animatePath = ((i) => {
-            if (i >= this.pathToShow.length) {
-                cancelAnimationFrame(this.animator.request);
-                return;
-            }
-            this.animator.request = requestAnimationFrame(() => animatePath(i + 1));
-            this.animator.setPath(document.getElementById(this.pathToShow[i]));
-        }).bind(this)
-
-        animatePath(0)
     }
 
 }

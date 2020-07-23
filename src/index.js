@@ -29,7 +29,8 @@ const table = document.getElementById("table");
 let mouseDown = false;
 let wallMode = true;
 
-document.body.addEventListener("mouseup", () => mouseDown = false)
+document.body.addEventListener("mouseup", () => mouseDown = false);
+document.body.addEventListener("mousedown", () => mouseDown = true);
 
 modeButton.addEventListener("click", () => {
   wallMode = !wallMode;
@@ -53,12 +54,12 @@ function buildGrid() {
       btn.classList.add("boardButton", "default");
       btn.id = i + j * width;
 
-      td.addEventListener("mousedown", () => mouseDown = true);
+
 
       td.addEventListener("click", () => {
 
         if (!wallMode && !dijkstra.finished) {
-          if (dijkstra.start) {
+          if (dijkstra.start!==-1) {
             animator.setTarget(btn)
             dijkstra.run(parseInt(btn.id));
           }

@@ -3,11 +3,10 @@ $dot-size: 8px;
 $color-primary: white;
 $color-secondary: black;
 $color-disabled: #bbbbbb;
-$color-accent1: #ff004c;
-$color-accent2: #005eff;
-$color-background: #ededed;
-
-$fadeTime: 0.3s
+$color-accent1: #E3170A;
+$color-accent2: #2585E4;
+$color-accent3: #F4D35E;
+$color-background: #F0F3F5;
 
 :root{
   --button-size: 14px;
@@ -71,29 +70,28 @@ td{
 
 .start{
   background-color: $color-accent1 !important;
-  animation: setPoint $fadeTime;
+  animation: setPoint 0.3s;
 }
 
 .target{
   background-color: $color-accent2 !important;
-  animation: setPoint $fadeTime;
+  animation: setPoint 0.3s;
 }
 
 .visited{
   background-color: $color-disabled;
-  animation: setPoint $fadeTime;
-}
-
-.path{
-  background-color: $color-accent1;
-  animation: setPoint $fadeTime;
+  animation: setPoint 0.003s;
 }
 
 .wall{
   background-color: $color-secondary;
-  animation: setPoint $fadeTime;
+  animation: setPoint 0.003s;
 }
 
+.path{
+  background-color: $color-accent3;
+  animation: setPoint 0.003s;
+}
 @keyframes setPoint{
   0%{
     transform: scale(1);
