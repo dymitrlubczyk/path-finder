@@ -80,17 +80,16 @@ td{
 
 .visited{
   background-color: $color-disabled;
-  animation: setPoint 0.003s;
 }
 
 .wall{
   background-color: $color-secondary;
-  animation: setPoint 0.003s;
+  animation: setPoint 0.3s;
 }
 
 .path{
   background-color: $color-accent3;
-  animation: setPoint 0.003s;
+  animation: setPoint 0.3s;
 }
 @keyframes setPoint{
   0%{

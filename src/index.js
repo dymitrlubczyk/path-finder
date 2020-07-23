@@ -59,7 +59,7 @@ function buildGrid() {
       td.addEventListener("click", () => {
 
         if (!wallMode && !dijkstra.finished) {
-          if (dijkstra.start!==-1) {
+          if (dijkstra.start !== -1) {
             animator.setTarget(btn)
             dijkstra.run(parseInt(btn.id));
           }
@@ -68,7 +68,7 @@ function buildGrid() {
             dijkstra.setStart(parseInt(btn.id));
           }
         }
-        dijkstra.showWay(parseInt(btn.id))
+        dijkstra.displayPath(parseInt(btn.id))
 
       });
 
