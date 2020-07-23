@@ -57,7 +57,7 @@ function buildGrid() {
 
       td.addEventListener("click", () => {
 
-        if (!wallMode) {
+        if (!wallMode && !dijkstra.finished) {
           if (dijkstra.start) {
             animator.setTarget(btn)
             dijkstra.run(parseInt(btn.id));
@@ -67,6 +67,7 @@ function buildGrid() {
             dijkstra.setStart(parseInt(btn.id));
           }
         }
+        dijkstra.showWay(parseInt(btn.id))
 
       });
 
@@ -90,7 +91,7 @@ function buildGrid() {
 function cleanUp() {
 
   Array.from(document.getElementsByClassName("boardButton")).forEach(btn => {
-    btn.classList.remove("start", "target", "visited", "wall")
+    btn.classList.remove("start", "target", "visited", "wall", "path")
     btn.classList.add("boardButton", "default")
   })
 

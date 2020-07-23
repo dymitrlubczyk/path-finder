@@ -10,9 +10,13 @@ export default class Animator {
     elem.classList.add("target")
   }
   setPath(elem) {
-    elem.classList.add("start")
+    elem.classList.remove("visited")
+    const newElem = elem.cloneNode(true)
+    elem.parentNode.replaceChild(newElem, elem)
+    newElem.classList.add("path")
   }
   setVisited(elem) {
+    elem.classList.remove("path")
     elem.classList.add("visited")
   }
   setWall(elem) {

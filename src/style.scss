@@ -84,6 +84,11 @@ td{
   animation: setPoint $fadeTime;
 }
 
+.path{
+  background-color: $color-accent1;
+  animation: setPoint $fadeTime;
+}
+
 .wall{
   background-color: $color-secondary;
   animation: setPoint $fadeTime;
