@@ -7,6 +7,8 @@ $color-accent1: #ff004c;
 $color-accent2: #005eff;
 $color-background: #ededed;
 
+$fadeTime: 0.3s
+
 :root{
   --button-size: 14px;
 }
@@ -69,22 +71,22 @@ td{
 
 .start{
   background-color: $color-accent1 !important;
-  animation: setPoint 0.3s;
+  animation: setPoint $fadeTime;
 }
 
 .target{
   background-color: $color-accent2 !important;
-  animation: setPoint 0.3s;
+  animation: setPoint $fadeTime;
 }
 
 .visited{
   background-color: $color-disabled;
-  animation: setPoint 0.3s;
+  animation: setPoint $fadeTime;
 }
 
 .wall{
   background-color: $color-secondary;
-  animation: setPoint 0.3s;
+  animation: setPoint $fadeTime;
 }
 
 @keyframes setPoint{

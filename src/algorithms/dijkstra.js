@@ -7,6 +7,7 @@ export default class Dijkstra {
         this.wall = [];
         this.dist = [];
         this.visited = [];
+        this.prev = [];
         this.setSize(height, width);
     }
 
@@ -17,6 +18,7 @@ export default class Dijkstra {
             this.visited.push(false);
             this.wall.push(false);
             this.dist.push(Number.POSITIVE_INFINITY)
+            this.prev.push(-1)
         }
     }
 
@@ -35,6 +37,7 @@ export default class Dijkstra {
 
             if (current === target || current === -1) {
                 clearInterval(this.itervalId);
+                this.showWay(current)
                 return;
             }
 
@@ -48,11 +51,10 @@ export default class Dijkstra {
             this.updateDist(i, j + 1, current);
 
             this.visited[current] = true;
-            this.animator.setVisited(document.getElementById(i * this.width + j))
+            this.animator.setVisited(document.getElementById(current))
 
         }.bind(this)
-            , 40);
-
+            , 5);
 
     }
 
@@ -62,6 +64,7 @@ export default class Dijkstra {
 
         if (this.dist[current] + 1 < this.dist[i * this.width + j]) {
             this.dist[i * this.width + j] = this.dist[current] + 1;
+            this.prev[i * this.width + j] = current;
         }
 
     }
@@ -91,6 +94,16 @@ export default class Dijkstra {
             this.dist[i] = this.height * this.width;
         }
         this.start = null;
+    }
+
+    showWay(id) {
+
+        if (id === -1) {
+            cancelAnimationFrame(this.animator.request)
+            return
+        }
+        this.animator.request = requestAnimationFrame(() => this.showWay(this.prev[id]))
+        this.animator.setPath(document.getElementById(id))
     }
 
 }
