@@ -9,8 +9,8 @@ window.addEventListener("resize", () => changeBoardSize())
 window.addEventListener("load", () => changeBoardSize())
 
 const changeBoardSize = () => {
-  width = Math.floor(document.body.clientWidth / cellSize) - 1
-  height = Math.floor(document.body.clientHeight / cellSize) - 1
+  width = Math.floor(0.9 * document.body.clientWidth / cellSize) - 1
+  height = Math.floor(0.7 * document.body.clientHeight / cellSize) - 1
   dijkstra.setSize(height, width)
   buildGrid()
 }
