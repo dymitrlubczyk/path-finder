@@ -20,8 +20,8 @@ let height = 10;
 let width = 10;
 const cellSize = 14;
 
-const timeline = new Timeline();
 const animator = new Animator();
+const timeline = new Timeline(animator);
 const dijkstra = new Dijkstra(height, width, animator, timeline);
 
 const modeButton = document.getElementById("mode_button");
@@ -99,7 +99,7 @@ function cleanUp() {
     btn.classList.add("boardButton", "default")
   })
 
-  timeline.clear();
+  timeline.disable();
   dijkstra.cleanUp();
 
 }

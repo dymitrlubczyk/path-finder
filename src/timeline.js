@@ -1,6 +1,7 @@
 export default class Timeline {
 
-  constructor() {
+  constructor(animator) {
+    this.animator = animator;
     this.updates = []
   }
 
@@ -8,7 +9,7 @@ export default class Timeline {
     this.updates.push(elemId);
   }
 
-  clear() {
+  disable() {
     this.updates = [];
     const timeline = document.getElementById("timeline");
     timeline.disabled = true;
@@ -23,6 +24,7 @@ export default class Timeline {
     timeline.value = timeline.max;
 
     function handleTimeChange(e) {
+      this.animator.hidePath();
       this.getStateAt(parseInt(e.currentTarget.value));
     }
 

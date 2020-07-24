@@ -12,7 +12,6 @@ export default class Dijkstra {
         this.dist = [];
         this.visited = [];
         this.prev = [];
-        this.pathToShow = [];
         this.finished = false;
         this.start = -1;
         this.setSize(height, width);
@@ -96,32 +95,20 @@ export default class Dijkstra {
         }
         this.start = -1;
         this.finished = false;
-        this.pathToShow = [];
     }
 
     displayPath(id) {
 
-        this.pathToShow.forEach(id => {
-            this.animator.setVisited(document.getElementById(id));
-        })
-        this.pathToShow = [];
+        const path = []
 
         do {
-            this.pathToShow.push(id);
+            path.push(id);
             id = this.prev[id];
         } while (id !== this.start)
-        this.pathToShow.reverse();
+        path.reverse();
 
-        const animatePath = ((i) => {
-            if (i >= this.pathToShow.length) {
-                cancelAnimationFrame(this.animator.request);
-                return;
-            }
-            this.animator.request = requestAnimationFrame(() => animatePath(i + 1));
-            this.animator.setPath(document.getElementById(this.pathToShow[i]));
-        }).bind(this)
-
-        animatePath(0)
+        this.animator.hidePath();
+        this.animator.showPath(path);
     }
 
 }

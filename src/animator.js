@@ -1,6 +1,30 @@
 export default class Animator {
   constructor() {
     this.request = null
+    this.path = [];
+  }
+  hidePath() {
+    this.path.forEach(id => {
+      this.setVisited(document.getElementById(id));
+    })
+    this.path = [];
+  }
+  showPath(path) {
+
+    this.path = path;
+
+    function animatePath(i) {
+      if (i >= this.path.length) {
+        cancelAnimationFrame(this.request);
+        return;
+      }
+      this.request = requestAnimationFrame(() => animatePath(i + 1));
+      this.setPath(document.getElementById(this.path[i]));
+    }
+    animatePath = animatePath.bind(this)
+
+    animatePath(0)
+
   }
   setStart(elem) {
     elem.classList.remove("start", "visited")
