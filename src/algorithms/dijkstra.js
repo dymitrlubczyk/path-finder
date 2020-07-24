@@ -1,11 +1,13 @@
 import Animator from "../animator"
 import PriorityQueue from "../priorityQueue"
+import Timeline from "../timeline"
 
 export default class Dijkstra {
-    constructor(height, width) {
+    constructor(height, width, animator, timeline) {
 
-        this.animator = new Animator()
-        this.queue = new PriorityQueue()
+        this.queue = new PriorityQueue();
+        this.animator = animator;
+        this.timeline = timeline;
         this.wall = [];
         this.dist = [];
         this.visited = [];
@@ -43,9 +45,7 @@ export default class Dijkstra {
 
             if (current === target || current === -1) {
                 clearInterval(this.itervalId);
-                this.finished = true;
-                this.displayPath(target);
-                this.queue.clear();
+                this.finish(target);
                 return;
             }
 
@@ -60,6 +60,7 @@ export default class Dijkstra {
 
             this.visited[current] = true;
             this.animator.setVisited(document.getElementById(current))
+            this.timeline.add(current)
 
         }.bind(this)
             , 30);
@@ -78,6 +79,13 @@ export default class Dijkstra {
 
     }
 
+    finish(target) {
+        this.finished = true;
+        this.displayPath(target);
+        this.queue.clear();
+        this.timeline.enable();
+    }
+
     cleanUp() {
 
         for (let i = 0; i < this.height * this.width; ++i) {
@@ -93,9 +101,6 @@ export default class Dijkstra {
 
     displayPath(id) {
 
-        if (!this.finished) {
-            return;
-        }
         this.pathToShow.forEach(id => {
             this.animator.setVisited(document.getElementById(id));
         })

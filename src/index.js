@@ -2,6 +2,7 @@ import Dijkstra from './algorithms/dijkstra';
 import Animator from "./animator"
 import createInstruction from "./instruction";
 import "./style.scss"
+import Timeline from './timeline';
 
 createInstruction()
 
@@ -19,8 +20,9 @@ let height = 10;
 let width = 10;
 const cellSize = 14;
 
-const dijkstra = new Dijkstra(height, width);
+const timeline = new Timeline();
 const animator = new Animator();
+const dijkstra = new Dijkstra(height, width, animator, timeline);
 
 const modeButton = document.getElementById("mode_button");
 const cleanUpButton = document.getElementById("cleanup_button");
@@ -68,7 +70,10 @@ function buildGrid() {
             dijkstra.setStart(parseInt(btn.id));
           }
         }
-        dijkstra.displayPath(parseInt(btn.id))
+
+        if (dijkstra.finished) {
+          dijkstra.displayPath(parseInt(btn.id));
+        }
 
       });
 
@@ -87,8 +92,6 @@ function buildGrid() {
 }
 
 
-
-
 function cleanUp() {
 
   Array.from(document.getElementsByClassName("boardButton")).forEach(btn => {
@@ -96,6 +99,7 @@ function cleanUp() {
     btn.classList.add("boardButton", "default")
   })
 
+  timeline.clear();
   dijkstra.cleanUp();
 
 }
