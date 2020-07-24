@@ -1,9 +1,11 @@
 import Animator from "../animator"
+import PriorityQueue from "../priorityQueue"
 
 export default class Dijkstra {
     constructor(height, width) {
 
         this.animator = new Animator()
+        this.queue = new PriorityQueue()
         this.wall = [];
         this.dist = [];
         this.visited = [];
@@ -33,15 +35,17 @@ export default class Dijkstra {
 
         let current = this.start;
         this.dist[current] = 0;
+        this.queue.insert(current, this.dist[current]);
 
         this.itervalId = setInterval(function () {
 
-            current = this.findNext();
+            current = this.queue.pop();
 
             if (current === target || current === -1) {
                 clearInterval(this.itervalId);
                 this.finished = true;
                 this.displayPath(target);
+                this.queue.clear();
                 return;
             }
 
@@ -50,9 +54,9 @@ export default class Dijkstra {
 
             //update distances to unvisited neigh
             this.updateDist(i - 1, j, current);
+            this.updateDist(i, j + 1, current);
             this.updateDist(i + 1, j, current);
             this.updateDist(i, j - 1, current);
-            this.updateDist(i, j + 1, current);
 
             this.visited[current] = true;
             this.animator.setVisited(document.getElementById(current))
@@ -68,26 +72,10 @@ export default class Dijkstra {
 
         if (this.dist[current] + 1 < this.dist[i * this.width + j]) {
             this.dist[i * this.width + j] = this.dist[current] + 1;
+            this.queue.insert(i * this.width + j, this.dist[current] + 1);
             this.prev[i * this.width + j] = current;
         }
 
-    }
-
-    findNext() {
-        let minDist = Number.POSITIVE_INFINITY;
-        let current = -1;
-
-        for (let v = 0; v < this.width * this.height; ++v) {
-            if (this.visited[v] || this.wall[v])
-                continue;
-
-            if (this.dist[v] < minDist) {
-                current = v;
-                minDist = this.dist[v];
-            }
-        }
-
-        return current;
     }
 
     cleanUp() {
@@ -100,6 +88,7 @@ export default class Dijkstra {
         }
         this.start = -1;
         this.finished = false;
+        this.pathToShow = [];
     }
 
     displayPath(id) {
