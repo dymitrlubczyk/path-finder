@@ -194,6 +194,15 @@ input[type=range] {
   width: 100px;
   background-color: transparent;
   -webkit-appearance: none;
+  &:disabled::-webkit-slider-thumb{
+    background: $color-disabled;
+  }
+  &:disabled::-moz-range-thumb{
+    background: $color-disabled;
+  }
+  &:disabled::-ms-thumb{
+    background: $color-disabled;
+  }
 }
 input[type=range]:focus {
   outline: none;
@@ -217,6 +226,9 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 input[type=range]::-moz-range-track {
   @include track;
+  &:disabled input[type=range]::-moz-range-thumb{
+    background: $color-disabled;
+  }
 }
 input[type=range]::-moz-range-thumb {
   @include thumb;
